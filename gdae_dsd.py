@@ -116,12 +116,6 @@ def build_GRU(dim, lsize, bsize, cost = 'mse'):
 
         return K.sum(ytrue * (K.log(ytrue) - K.log(ypred)) + (ypred - ytrue), axis=-1)
 
-    def IS(ytrue, ypred):
-        # Update of the true
-        ytrue = xin * (K.pow(ytrue, 2.) + K.epsilon())/(K.pow(xin, 2.) + K.epsilon()) + 1e-6
-        ypred += 1e-6
-
-        return K.mean((ytrue/ypred) - (K.log(ytrue) - K.log(ypred)) - 1.,axis=-1)
 
     if cost == 'mse':
         print('MSE')
@@ -132,9 +126,6 @@ def build_GRU(dim, lsize, bsize, cost = 'mse'):
     elif cost == 'klbkg':
         print('Kullback-Leibler for Accompaniment Instrument')
         model.compile(optimizer = opt, loss = [KLbkg, KLbkg])
-    elif cost == 'is':
-        print('Itakura-Saito')
-        model.compile(optimizer = opt, loss = IS)
 
     return model
 
@@ -188,12 +179,6 @@ def build_bkgGRU(dim, lsize, bsize, cost = 'mse'):
 
         return K.sum(ytrue * (K.log(ytrue) - K.log(ypred)) + (ypred - ytrue), axis=-1)
 
-    def IS(ytrue, ypred):
-        # Update of the true
-        ytrue = xin * (K.pow(ytrue, 2.) + K.epsilon())/(K.pow(xin, 2.) + K.epsilon()) + 1e-5
-        ypred += 1e-5
-
-        return K.mean((ytrue/ypred) - (K.log(ytrue) - K.log(ypred)) - 1.,axis=-1)
 
     if cost == 'mse':
         print('MSE')
@@ -204,9 +189,6 @@ def build_bkgGRU(dim, lsize, bsize, cost = 'mse'):
     elif cost == 'klbkg':
         print('Kullback-Leibler for Accompaniment Instrument')
         model.compile(optimizer = opt, loss = [KLbkg, KLbkg])
-    elif cost == 'is':
-        print('Itakura-Saito')
-        model.compile(optimizer = opt, loss = IS)
 
     return model
 
@@ -220,7 +202,7 @@ if __name__ == '__main__':
     cfr = 1
     seqlen = 18
     bsize = 16
-    cost = str(sys.argv[1]) #cfunctions = ['mse', 'kl', 'is'] # Avoid iterations because of GPU memory issues.
+    cost = str(sys.argv[1]) #cfunctions = ['mse', 'kl'] # Avoid iterations because of GPU memory issues.
     epochs = 65
 
     if analyseData :
