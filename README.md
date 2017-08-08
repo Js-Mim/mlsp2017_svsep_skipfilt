@@ -1,7 +1,6 @@
 # Singing Voice Separation via Gated Recurrent Units and Skip-Filtering connections
 
 Support material and source code for the model described in : S.I. Mimilakis, K. Drossos, T. Virtanen, G. Schuller, "A Recurrent Encoder-Decoder Approach With Skip-Filtering Connections For Monaural Singing Voice Separation", accepted for presentation at the 2017 IEEE International Workshop on Machine Learning for Signal Processing, September 25–28, 2017, Tokyo, Japan.
-[![DOI]()]()
 
 Please use the above citation if you find any of the code useful.
 
