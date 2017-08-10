@@ -18,7 +18,12 @@ from keras.layers import Input, Highway, Lambda, merge,\
     GRU, Lambda, TimeDistributed, Dense
 from keras.callbacks import ModelCheckpoint as MC
 from keras.models import Model, Sequential
-from keras.regularizers import activity_l1, activity_l2, l1, l2
+from keras import __version__
+if __version__ == '1.2.2':
+    from keras.regularizers import  activity_l2
+else :
+    from keras.regularizers import  l2 as activity_l2
+
 from keras import optimizers as opt
 opt = opt.adam(clipnorm = 0.35)             # Optimizer
 
