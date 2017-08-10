@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" adlesseunifierdata="[&quot;{\&quot;w\&quot;:false,\&quot;id\&quot;:\&quot;com.kwizzu.fastesttube\&quot;,\&quot;name\&quot;:\&quot;FastestTube\&quot;,\&quot;isComponentMode\&quot;:true}&quot;]"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online demo">
+    <meta name="author" content="ARG/SGN/TUT">
+    <link rel="icon" href="assets/favicon.ico">
+
+    <title>Singing Voice Separation - Demo</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--link href="assets/css/bootstrap-player.css" rel="stylesheet"-->
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/jumbotron.css" rel="stylesheet">
+    <link href="css/bootstrap3_player.css" rel="stylesheet">
+    
+  <style type="text/css"></style></head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <p class="navbar-text navbar-left">Singing Voice Separation - Online Demo</p>
+	 </div>
+	 
+	<div class="collapse navbar-collapse">
+	  <p class="navbar-text navbar-right">
+            S.I. Mimilakis,
+	    K. Drossos, 
+	    <a href="http://www.cs.tut.fi/~tuomasv" target="_blank" class="navbar-link">
+	      T. Virtanen
+	    </a>, 
+	    <a href="https://www.tu-ilmenau.de/mt-ams/personen/schuller-gerald/" target="_blank" class="navbar-link">
+	      G. Schuller
+	    </a>
+	  </p>
+	</div>
+      </div>
+    </nav>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Singing Voice Separation</h1>
+        <p class="text-muted">This page is an on-line demo of our recent research results
+         on singing voice separation with recurrent neural networks.</p>
+        <p class="text-muted">Manuscript and complete results can be found in our paper 
+        entitled "<i>A Recurrent Encoder-decoder Approach with Skip-filtering connections 
+        for Monaural Singing Voice Separation</i>" submitted to 
+        <a href="http://mlsp2017.conwiz.dk/home.htm" target="_blank">MLSP 2017</a>.</p>
+        <p class="text-muted">Code can be found 
+        <a href="https://github.com/Js-Mim/mlsp2017_svsep_skipfilt" target="_blank"> here
+        </a> and trained models <a href="https://zenodo.org/record/840388" target="_blank"> here.
+        </a></p>
+      </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Overview -->
+	<div class="row">
+		<div class="col-md-12">
+	  		<p class="text-justify">
+	    	<h3>Overview</h3>
+    		This webpage serves as a demonstration for our work in singing voice source 
+    		separation via gated recurrent units (GRU) and skip-filtering connections. 
+                We propose a method to directly learn time-frequency masks from
+                observed mixture magnitude spectra.
+	    	</p>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+                        <img src="images/method.png" alt="figure of the method" class="img-rounded img-responsive">
+                        <center>
+                        <div class="caption">
+                          <h3>An illustration of our proposed method.</h3>
+                        </div>
+                        </center>
+                </div>
+
+	</div>
+
+        <!-- Methods -->
+        <div class="row">
+                <div class="col-md-12">
+                <div class="container">
+                  <h3>Comparison with Previous Approaches:</h3>
+                  <ul class="list-group">
+                    <center>
+                    <li class="list-group-item list-group-item-success">Two deep feed-forward neural networks, for predicting both binary and soft time-frequency masks, denoted as GRA2 [2] and GRA3 [3].</li>
+                    <li class="list-group-item list-group-item-info">A deep convolutional encoder-decoder approach, for estimating a soft time-frequency mask and denoted as CHA [4].</li>
+                    <li class="list-group-item list-group-item-warning">Two denoising auto-encoders operating on the common fate signal representation [5] denoted as STO1, STO2 .</li>
+                    </center>
+                  </ul>
+                </div>
+
+        </div>
+
+        <!-- Demo Eval-Subset -->
+        <div class="row">
+                <div class="col-md-12">
+                <div class="container">
+                  <div class="container">
+                    <h3>Audio Demo on Evaluation subset:</h3>
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a data-toggle="tab" href="#menu0">Schoolboy Facination</a></li>
+                      <li><a data-toggle="tab" href="#menu1">A Place For Us</a></li>
+                      <li><a data-toggle="tab" href="#menu2">On The Line</a></li>
+                      <li><a data-toggle="tab" href="#menu3">Sea Of Leaves</a></li>
+                      <li><a data-toggle="tab" href="#menu4">Pray For The Rain</a></li>
+                      <li><a data-toggle="tab" href="#menu5">What Have You Done To Me</a></li>
+                      <li><a data-toggle="tab" href="#menu6">Back Home To Blue</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                      <div id="menu0" class="tab-pane fade in active">
+                        <h3>Audio Examples:</h3>
+                        <center>
+                        <div class="btn-group-horizontal">
+                          <button type="button" class="btn btn">Mix
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_mixture_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+                          <button type="button" class="btn btn">IBM
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                          <button type="button" class="btn btn-success">GRA2
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+                          <button type="button" class="btn btn-success">GRA3
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                          <center>
+                              <button type="button" class="btn btn-info">CHA
+                                  <audio controls>
+                                  <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                  </audio>
+                              </button>
+                          </center>
+
+                          <button type="button" class="btn btn-warning">STO1
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+                          <button type="button" class="btn btn-warning">STO2
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                          <center>
+                              <button type="button" class="btn btn-danger">GRU-S
+                                  <audio controls>
+                                  <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                  </audio>
+                              </button>
+                          </center>
+
+                          <button type="button" class="btn btn-danger">GRU-D
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                          <button type="button" class="btn btn-danger">GRU-DWF
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/4_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                        </div>
+                        </center>
+                      </div>
+
+                      <div id="menu1" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_mixture_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn">IBM
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-success">GRA2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-success">GRA3
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-info">CHA
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-warning">STO1
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-warning">STO2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-danger">GRU-D
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/10_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu2" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_mixture_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn">IBM
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-success">GRA2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-success">GRA3
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-info">CHA
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-warning">STO1
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-warning">STO2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-danger">GRU-D
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/21_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu3" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_mixture_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn">IBM
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-success">GRA2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-success">GRA3
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-info">CHA
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-warning">STO1
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-warning">STO2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-danger">GRU-D
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/23_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu4" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_mixture_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn">IBM
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-success">GRA2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-success">GRA3
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-info">CHA
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-warning">STO1
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-warning">STO2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-danger">GRU-D
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/29_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu5" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_mixture_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn">IBM
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-success">GRA2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-success">GRA3
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-info">CHA
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-warning">STO1
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-warning">STO2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-danger">GRU-D
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/35_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu6" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_mixture_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn">IBM
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_IBM_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-success">GRA2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_GRA2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-success">GRA3
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_GRA3_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-info">CHA
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_CHA_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-warning">STO1
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_STO1_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+                        <button type="button" class="btn btn-warning">STO2
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_STO2_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_GRUS_vocals_mono.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+                        <button type="button" class="btn btn-danger">GRU-D
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_GRUD_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/eval_subset/40_GRUDWF_vocals_mono.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+        </div>
+
+        <!-- Demo Commercial Mixtures-->
+        <div class="row">
+                <div class="col-md-12">
+                <div class="container">
+                  <div class="container">
+                    <h3>Audio Demo on Commercial Music Mixtures:</h3>
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a data-toggle="tab" href="#menu0b">Habanera - Carmen (Bizet)</a></li>
+                      <li><a data-toggle="tab" href="#menu1b">Chelsea Wolfe - Warden</a></li>
+                      <li><a data-toggle="tab" href="#menu2b">Igorrr - Tout Petit Moineau</a></li>
+                      <li><a data-toggle="tab" href="#menu3b">La Coka Nostra - That's Coke</a></li>
+                      <li><a data-toggle="tab" href="#menu4b">Dissection - Dark Mother Divine</a></li>
+
+                    </ul>
+
+                    <div class="tab-content">
+                      <div id="menu0b" class="tab-pane fade in active">
+                        <h3>Audio Examples:</h3>
+                        <center>
+                        <div class="btn-group-horizontal">
+                          <button type="button" class="btn btn">Mix
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/carmen_mix.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                          <center>
+                              <button type="button" class="btn btn-danger">GRU-S
+                                  <audio controls>
+                                  <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/carmen_svhat_GRUS.mp3" type="audio/mpeg" />
+                                  </audio>
+                              </button>
+
+                              <button type="button" class="btn btn-danger">GRU-D
+                                  <audio controls>
+                                  <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/carmen_svhat_GRUD.mp3" type="audio/mpeg" />
+                                  </audio>
+                              </button>
+                          </center>
+
+
+
+                          <button type="button" class="btn btn-danger">GRU-DWF
+                              <audio controls>
+                              <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/carmen_svhat_GRUDWF.mp3" type="audio/mpeg" />
+                              </audio>
+                          </button>
+
+                        </div>
+                        </center>
+                      </div>
+
+                      <div id="menu1b" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/warden_mix.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/warden_svhat_GRUS.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+
+                            <button type="button" class="btn btn-danger">GRU-D
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/warden_svhat_GRUD.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/warden_svhat_GRUDWF.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+
+                          </div>
+
+
+                      <div id="menu2b" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/igorrr_mix.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/igorrr_svhat_GRUS.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+
+                            <button type="button" class="btn btn-danger">GRU-D
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/igorrr_svhat_GRUD.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/igorrr_svhat_GRUDWF.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu3b" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/lcn_mix.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/lcn_svhat_GRUS.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+
+                            <button type="button" class="btn btn-danger">GRU-D
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/lcn_svhat_GRUD.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/lcn_svhat_GRUDWF.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                      <div id="menu4b" class="tab-pane fade">
+                      <h3>Audio Examples:</h3>
+                      <center>
+                      <div class="btn-group-horizontal">
+                        <button type="button" class="btn btn">Mix
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/dissection_mix.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                        <center>
+                            <button type="button" class="btn btn-danger">GRU-S
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/dissection_svhat_GRUS.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+
+                            <button type="button" class="btn btn-danger">GRU-D
+                                <audio controls>
+                                <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/dissection_svhat_GRUD.mp3" type="audio/mpeg" />
+                                </audio>
+                            </button>
+                        </center>
+
+
+
+                        <button type="button" class="btn btn-danger">GRU-DWF
+                            <audio controls>
+                            <source src="https://raw.githubusercontent.com/Js-Mim/mlsp2017_svsep_skipfilt/gh-pages/commercial_mixtures/mp3/dissection_svhat_GRUDWF.mp3" type="audio/mpeg" />
+                            </audio>
+                        </button>
+
+                      </div>
+                      </center>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+        </div>
+
+        <!-- Acknowledgements -->
+        <div class="row">
+                <div class="col-md-12">
+                <div class="container">
+                  <h3>Acknowledgements:</h3>
+                  We would like to thank the authors of [1] for making the
+                  results of the evaluation available. The major part of the research
+                  leading to these results has received funding from the
+                  European Union'ss H2020 Framework Programme (H2020-
+                  MSCA-ITN-2014) under grant agreement no 642685 MacSeNet.
+                  Konstantinos Drossos was partially funded from the
+                  European Union's H2020 Framework Programme through
+                  ERC Grant Agreement 637422 EVERYSOUND. Minor part
+                  of the computations leading to these results were performed
+                  on a TITAN-X GPU donated by NVIDIA.
+                </div>
+
+        </div>
+
+        <!-- References -->
+        <div class="row">
+                <div class="col-md-12">
+                <div class="container">
+                  <h3>References:</h3>
+                  <p>[1] A. Liutkus, F.-R. Stoter, Z. Rafii, D. Kitamura, B. Rivet, N. Ito,
+                  N. Ono, and J. Fontecave, ``The 2016 signal separation evaluation
+                  campaign,'' in Latent Variable Analysis and Signal Separation:
+                  13th International Conference, LVA/ICA 2017, 2017
+                  pp. 323-332. </p>
+
+                  <p class="text-success">[2] E.-M. Grais, G. Roma, A.J.R. Simpson, and M.-D. Plumbley,
+                  ``Single-channel audio source separation using deep neural network
+                  ensembles,'' in Audio Engineering Society Convention
+                  140, May 2016. </p>
+
+                  <p class="text-success">[3] E.-M. Grais, G. Roma, A.J.R. Simpson, and M.-D. Plumbley,
+                  ``Combining mask estimates for single channel audio source
+                  separation using deep neural networks,'' in Proceedings of the
+                  17th Annual Conference of the International Speech Communication
+                  Association (Interspeech), Sept. 8-12 2016, pp. 3339-3343. </p>
+
+                  <p class="text-info">[4] P. Chandna, M. Miron, J. Janer, and E. Gomez, ``Monoaural
+                  audio source separation using deep convolutional neural networks,''
+                  in Latent Variable Analysis and Signal Separation:
+                  13th International Conference, LVA/ICA 2017, 2017, pp. 258-266. </p>
+
+                  <p class="text-warning">[5]  F.-R. Stoter, A. Liutkus, R. Badeau, B. Edler, and P. Magron,
+                  ``Common fate model for unison source separation,'' in International
+                  Conference on Acoustics, Speech and Signal Processing
+                  (ICASSP 2016), 2016, pp. 126-130. </p>
+
+                </div>
+
+        </div>
+
+
+	<footer>
+        <div class="collapse navbar-collapse">
+          <p class="navbar-text navbar-right">
+            S.I. Mimilakis,
+            K. Drossos,
+            <a href="http://www.cs.tut.fi/~tuomasv" target="_blank" class="navbar-link">
+              T. Virtanen
+            </a>,
+            <a href="https://www.tu-ilmenau.de/mt-ams/personen/schuller-gerald/" target="_blank" class="navbar-link">
+              G. Schuller
+            </a>
+          </p>
+        </div>
+	</footer>
+</div> <!-- /container -->
+
+
+    <!-- ================================================== -->
+    <!-- ================================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="assets/js/bootstrap-player.js"></script>
+    <script src="js/bootstrap3_player.js"></script>
+    </div>
+  </div>
+  
+
+
+</body></html>
