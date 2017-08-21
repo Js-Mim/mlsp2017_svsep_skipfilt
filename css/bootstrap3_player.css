@@ -1,15 +1,15 @@
 .playa input[type="range"] {  
   background-color: #ddd;
-  border: 1px solid #bbb;
+  border: 0.25px solid #bbb;
   border-radius: 0.5em;
-  opacity: 0.5;
+  opacity: 0.25;
   height: 1em;
   top: 2px;
   position: relative;
 }
 
 .playa  .thumbnail  {
-    width:100%;
+    width:10%;
 }
 
 /* sliders and buttons need a uniform height */
