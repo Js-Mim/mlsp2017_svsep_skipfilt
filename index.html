@@ -98,7 +98,7 @@
                   <h3>Comparison with Previous Approaches:</h3>
                   <ul class="list-group">
 
-                    <li class="list-group-item list-group-item-success">Two deep feed-forward neural networks, for predicting both binary and soft time-frequency masks, denoted as GRA2 [2] and GRA3 [3].</li>
+                    <li class="list-group-item list-group-item-success">Two deep feed-forward neural networks, for predicting both binary and soft time-frequency masks, denoted as GRA2 and GRA3(same architecture but trained with regularization terms) [2].</li>
                     <li class="list-group-item list-group-item-info">A deep convolutional encoder-decoder approach, for estimating a soft time-frequency mask and denoted as CHA [4].</li>
                     <li class="list-group-item list-group-item-warning">Two denoising auto-encoders operating on the common fate signal representation [5] denoted as STO1, STO2 .</li>
 
@@ -850,18 +850,12 @@
                   ensembles,'' in Audio Engineering Society Convention
                   140, May 2016. </p>
 
-                  <p class="text-success">[3] E.-M. Grais, G. Roma, A.J.R. Simpson, and M.-D. Plumbley,
-                  ``Combining mask estimates for single channel audio source
-                  separation using deep neural networks,'' in Proceedings of the
-                  17th Annual Conference of the International Speech Communication
-                  Association (Interspeech), Sept. 8-12 2016, pp. 3339-3343. </p>
-
-                  <p class="text-info">[4] P. Chandna, M. Miron, J. Janer, and E. Gomez, ``Monoaural
+                  <p class="text-info">[3] P. Chandna, M. Miron, J. Janer, and E. Gomez, ``Monoaural
                   audio source separation using deep convolutional neural networks,''
                   in Latent Variable Analysis and Signal Separation:
                   13th International Conference, LVA/ICA 2017, 2017, pp. 258-266. </p>
 
-                  <p class="text-warning">[5]  F.-R. Stoter, A. Liutkus, R. Badeau, B. Edler, and P. Magron,
+                  <p class="text-warning">[4]  F.-R. Stoter, A. Liutkus, R. Badeau, B. Edler, and P. Magron,
                   ``Common fate model for unison source separation,'' in International
                   Conference on Acoustics, Speech and Signal Processing
                   (ICASSP 2016), 2016, pp. 126-130. </p>
